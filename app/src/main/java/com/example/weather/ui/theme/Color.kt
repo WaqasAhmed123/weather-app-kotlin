@@ -14,9 +14,9 @@ val Pink40 = Color(0xFF7D5260)
 
 
 val PurpleToPinkGradient = Brush.linearGradient()
-val gradientBackground = Brush.linearGradient(
-    start = Offset.Zero,
-    end = Offset.Infinite,
+val gradientBackground = Brush.verticalGradient(
+//    start = Offset.Zero,
+//    end = Offset.Infinite,
 //    shaderStops = null, // Default value for ShaderStops
     colors = listOf(
         Color(0xFF362A84),
