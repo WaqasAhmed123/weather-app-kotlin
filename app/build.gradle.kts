@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.tasks.PerModuleReportDependenciesTask
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -53,6 +55,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+buildFeatures{
+    viewBinding =true
+}
 }
 
 dependencies {
@@ -86,12 +91,30 @@ dependencies {
 
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+//    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
+//    access permission
+//    val activity_version = "1.8.2"
+    implementation("androidx.activity:activity-ktx:1.9.0-alpha03")
+//    val fragment_version = "1.6.2"
+    implementation("androidx.fragment:fragment-ktx:1.7.0-alpha10")
+    // Testing Fragments in Isolation
+//    debugImplementation("androidx.fragment:fragment-testing:$fragment_version")
+
+//    implementation ("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 }
 
 kapt{
     correctErrorTypes = true
 }
+//repositories {
+//    mavenCentral()
+//}
+//repositories {
+//    google()
+//    mavenCentral()
+//}
