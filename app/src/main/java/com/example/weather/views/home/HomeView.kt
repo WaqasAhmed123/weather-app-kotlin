@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
@@ -22,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +35,20 @@ import com.example.weather.ui.theme.gradientBackground
 
 //class HomeView {
 //}
+    val homeViewModel = HomeViewModel()
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeView() {
-    val homeViewModel = HomeViewModel()
+    remember {
+
+        mutableStateOf(homeViewModel.currentTemp.value)
+    }
+//    var currentTemp = remember {
+//
+//        mutableStateOf(homeViewModel.currentTemp.value)
+//    }
+//            println("modified temp is $currentTemp")
+
     Surface {
         Box(
             modifier = Modifier
@@ -57,23 +68,27 @@ fun HomeView() {
                 )
 
                 Text(
-                    text = "25\u00B0C",
-//                    modifier = Modifier.align(Alignment.Center),
+
+                    //                    text = "25\u00B0C",
+//                    text = "${homeViewModel.currentTemp.value}\u00B0C",
+                    text = "${homeViewModel.currentTemp.value}\u00B0C",
+//                    text = "${currentTemp}\u00B0C",
+                    //                    modifier = Modifier.align(Alignment.Center),
                     color = Color.White,
                     fontSize = 64.sp
                 )
                 Text(
-//                    "${homeViewModel.weatherDescription}",
+                    //                    "${homeViewModel.weatherDescription}",
                     "Cloudy",
                     style = MaterialTheme.typography.titleMedium
                 )
 
                 Text(
-//                    text =  "Max ${homeViewModel.maxTemp}\u00B0  Min ${homeViewModel.minTemp}\u00B0",
+                    //                    text =  "Max ${homeViewModel.maxTemp}\u00B0  Min ${homeViewModel.minTemp}\u00B0",
                     text = "Max 30\u00B0  Min 21\u00B0",
-//                    modifier = Modifier.align(Alignment.Center),
-//                    color = Color.White,
-//                    fontSize = 64.sp
+                    //                    modifier = Modifier.align(Alignment.Center),
+                    //                    color = Color.White,
+                    //                    fontSize = 64.sp
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -88,20 +103,20 @@ fun HomeView() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()// Fill available width
-//                        .height(198.dp) // S
-//                        .size(
-////                            width = 336.dp,
-//                            height = 198.dp)
+                        //                        .height(198.dp) // S
+                        //                        .size(
+                        ////                            width = 336.dp,
+                        //                            height = 198.dp)
                         .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
                         .background(brush = gradientBackground)
                         .border(width = 1.dp, color = Color.Transparent),
-//                    contentAlignment = Alignment.Center
+                    //                    contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceAround,
                             modifier = Modifier.fillMaxWidth(),
-//                            verticalAlignment = Alignment.CenterVertically
+                            //                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text("Today", style = MaterialTheme.typography.titleSmall)
                             Text(
@@ -119,7 +134,7 @@ fun HomeView() {
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-//                            add feels like here
+                            //                            add feels like here
                             "28\u00B0C",
                             style = MaterialTheme.typography.titleMedium
                         )
