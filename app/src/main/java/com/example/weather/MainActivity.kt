@@ -1,46 +1,111 @@
 package com.example.weather
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextDirection.Companion.Content
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.weather.model.UserInfo
+import com.example.weather.model.WeatherAndCityInfo
+import com.example.weather.services.ApiService
 import com.example.weather.ui.theme.WeatherTheme
+import com.example.weather.ui.theme.gradientBackground
+import com.example.weather.views.home.HomeView
+import com.example.weather.views.home.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+//import okhttp3.Call
+import retrofit2.Call
+
+//import okhttp3.Response
+import retrofit2.Response
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WeatherTheme {
+            UserInfo.getCurrentLocation(context = this)
+
+//            Content()
+            WeatherTheme(gradientBackground = gradientBackground) {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+//                    LaunchedEffect(Unit) {
+//                        UserInfo.getCurrentLocation(context =this@MainActivity)
+//                    }
+                    HomeView()
+                    println("Accessed after view ${UserInfo.lat},${UserInfo.lon}")
+                    getMyData()
+
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+val BASE_URL = "https://api.openweathermap.org"
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WeatherTheme {
-        Greeting("Android")
-    }
+//var lat = UserInfo.lat
+//var lon = UserInfo.lon
+var lat = 24.9325095
+var lon = 67.1005537
+val homeViewModel = HomeViewModel()
+private fun getMyData() {
+    println("location while calling func $lat, $lon")
+    val retrofitBuilder = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BASE_URL)
+        .build()
+        .create(ApiService::class.java)
+    val retrofitData = retrofitBuilder.getWeatherAndCityInfoFromAPi(lat = lat!!, lon = lon!!)
+    retrofitData.enqueue(object : Callback<WeatherAndCityInfo> {
+        override fun onResponse(
+            call: Call<WeatherAndCityInfo>, response: Response<WeatherAndCityInfo>
+        ) {
+            if (response.isSuccessful) {
+                println("rep is $response")
+
+                val completeWeatherData = response.body()!!
+                homeViewModel.currentTemp.value =
+                    completeWeatherData.weatherList?.firstOrNull()?.main?.temp
+//                println(" current temp is ${homeViewModel.currentTemp.value}");
+
+
+                println("response body is $completeWeatherData")
+//                for (dataItem in completeWeatherData) {
+//                    myDataItemList.add(dataItem)
+//                }
+            } else {
+                println("Response not successful: ${response.code()}")
+            }
+
+        }
+
+        override fun onFailure(call: Call<WeatherAndCityInfo>, t: Throwable) {
+            Log.d("TAG", "onFailure: " + t.message)
+        }
+    })
+
+
 }
