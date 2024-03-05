@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.tasks.PerModuleReportDependenciesTask
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -102,6 +100,9 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.0-alpha03")
 //    val fragment_version = "1.6.2"
     implementation("androidx.fragment:fragment-ktx:1.7.0-alpha10")
+
+//    load network image
+    implementation("io.coil-kt:coil-compose:2.6.0")
     // Testing Fragments in Isolation
 //    debugImplementation("androidx.fragment:fragment-testing:$fragment_version")
 

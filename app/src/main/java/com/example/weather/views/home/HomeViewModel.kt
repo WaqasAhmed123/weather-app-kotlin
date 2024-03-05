@@ -23,12 +23,17 @@ object HomeViewModel {
     var feelsLike
             : MutableState<String?> = mutableStateOf("")
     var description: MutableState<String?> = mutableStateOf(null)
+    var weatherDescriptionIconUrl: MutableState<String?> = mutableStateOf(null)
     var cityName: MutableState<String?> = mutableStateOf(null)
     var country: MutableState<String?> = mutableStateOf(null)
     var sunriseTime: MutableState<Int?> = mutableStateOf(null)
     var sunsetTime: MutableState<Int?> = mutableStateOf(null)
 
     fun updateWeatherDataInHomeViewModel(weatherData: WeatherAndCityInfo) {
+        weatherDescriptionIconUrl.value =
+            "https://openweathermap.org/img/w/${weatherData.weatherList?.firstOrNull()?.weather?.getOrNull(0)?.icon}.png";
+        println("icon url is $weatherDescriptionIconUrl")
+
         currentTemp.value =
             convertFahrenheitToCelsius(
                 weatherData.weatherList?.firstOrNull()?.main?.temp!!

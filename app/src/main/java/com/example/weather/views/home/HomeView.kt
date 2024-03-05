@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.weather.R
 import com.example.weather.ui.theme.gradientBackground
 
@@ -47,13 +49,20 @@ fun HomeView() {
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.weather_icon), // Load drawable resource
-                    contentDescription = "My Image",
-                    modifier = Modifier
-                        .height(198.dp) // Set height
-                        .width(336.dp) // Set width
+                AsyncImage(
+                    model = "${HomeViewModel.weatherDescriptionIconUrl.value}",
+//                    "https://cdn.pixabay.com/photo/2021/11/12/12/16/leaves-6788800_1280.jpg",
+                    contentDescription = "Translated description of what the image contains",
+                    placeholder = painterResource(id = R.drawable.weather_icon),
+                    modifier = Modifier.size(100.dp, 100.dp)
                 )
+//                Image(
+//                    painter = painterResource(id = R.drawable.weather_icon), // Load drawable resource
+//                    contentDescription = "My Image",
+//                    modifier = Modifier
+//                        .height(198.dp) // Set height
+//                        .width(336.dp) // Set width
+//                )
 
                 Text(
 
