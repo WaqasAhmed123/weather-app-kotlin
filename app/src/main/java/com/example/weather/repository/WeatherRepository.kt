@@ -2,7 +2,6 @@ package com.example.weather.repository
 
 //import com.example.weather.views.home.homeViewModel
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import com.example.weather.model.WeatherAndCityInfo
 import com.example.weather.services.ApiService
 import com.example.weather.views.home.HomeViewModel
@@ -20,7 +19,7 @@ object WeatherRepository {
     var lon = 67.1005537
 
     //        val homeViewModel = HomeViewModel()
-    var isDataLoaded = mutableStateOf(false)
+//    var isDataLoaded = mutableStateOf(false)
     fun getMyData() {
         println("location while calling func $lat, $lon")
         val retrofitBuilder = Retrofit.Builder()
@@ -40,7 +39,7 @@ object WeatherRepository {
 
 
                     println("response body is ${completeWeatherData}")
-                    isDataLoaded.value = true
+//                    isDataLoaded.value = true
 
                 } else {
                     println("Response not successful: ${response.code()}")
