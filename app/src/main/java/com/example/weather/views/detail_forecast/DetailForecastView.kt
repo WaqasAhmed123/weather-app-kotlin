@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.weather.ui.theme.gradientBackground
 import com.example.weather.views.home.HomeViewModel
+import com.example.weather.widgets.DailyWeatherContainer
 import com.example.weather.widgets.SunTiming
 
 @Composable
@@ -49,6 +50,7 @@ fun DetailForecastView() {
                 SunTiming(sunEvent = "SUNSET", time = "${HomeViewModel.sunsetTime.value}")
 
             }
+            HomeViewModel.weatherDescriptionIconUrl.value?.let { DailyWeatherContainer(temperature = "23", iconUrl = it, day = "Wed", time = "6 PM") }
         }
 
 

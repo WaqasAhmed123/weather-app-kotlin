@@ -51,8 +51,8 @@ class MainActivity : ComponentActivity() {
 //                        UserInfo.getCurrentLocation(context =this@MainActivity)
 //                    }
 //                    HomeView()
-                    App()
-//                    DetailForecastView()
+//                    App()
+                    DetailForecastView()
 //                    println("Accessed after view ${UserInfo.lat},${UserInfo.lon}")
 //                    getMyData()
 
