@@ -21,8 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,19 +33,9 @@ import com.example.weather.ui.theme.gradientBackground
 
 //class HomeView {
 //}
-    val homeViewModel = HomeViewModel()
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeView() {
-    remember {
-
-        mutableStateOf(homeViewModel.currentTemp.value)
-    }
-//    var currentTemp = remember {
-//
-//        mutableStateOf(homeViewModel.currentTemp.value)
-//    }
-//            println("modified temp is $currentTemp")
 
     Surface {
         Box(
@@ -71,21 +59,22 @@ fun HomeView() {
 
                     //                    text = "25\u00B0C",
 //                    text = "${homeViewModel.currentTemp.value}\u00B0C",
-                    text = "${homeViewModel.currentTemp.value}\u00B0C",
-//                    text = "${currentTemp}\u00B0C",
+//                    text = "${homeViewModel.value.currentTemp.value}\u00B0C",
+                    text = "${HomeViewModel.currentTemp.value}\u00B0C",
+//                    text = "$23\u00B0C",
                     //                    modifier = Modifier.align(Alignment.Center),
                     color = Color.White,
                     fontSize = 64.sp
                 )
                 Text(
-                    //                    "${homeViewModel.weatherDescription}",
-                    "Cloudy",
+                    "${HomeViewModel.description.value}",
+//                    "Cloudy",
                     style = MaterialTheme.typography.titleMedium
                 )
 
                 Text(
                     //                    text =  "Max ${homeViewModel.maxTemp}\u00B0  Min ${homeViewModel.minTemp}\u00B0",
-                    text = "Max 30\u00B0  Min 21\u00B0",
+                    text = "Max ${HomeViewModel.tempMax.value}\u00B0  Min ${HomeViewModel.tempMin.value}\u00B0",
                     //                    modifier = Modifier.align(Alignment.Center),
                     //                    color = Color.White,
                     //                    fontSize = 64.sp
@@ -120,7 +109,7 @@ fun HomeView() {
                         ) {
                             Text("Today", style = MaterialTheme.typography.titleSmall)
                             Text(
-                                homeViewModel.formattedDate,
+                                text = HomeViewModel.formattedDate,
                                 style = MaterialTheme.typography.titleSmall
                             )
                         }
@@ -135,7 +124,7 @@ fun HomeView() {
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             //                            add feels like here
-                            "28\u00B0C",
+                            "${HomeViewModel.feelsLike.value}\u00B0C",
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
