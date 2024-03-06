@@ -33,6 +33,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -103,6 +104,8 @@ dependencies {
 
 //    load network image
     implementation("io.coil-kt:coil-compose:2.6.0")
+//    coroutines
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     // Testing Fragments in Isolation
 //    debugImplementation("androidx.fragment:fragment-testing:$fragment_version")
 

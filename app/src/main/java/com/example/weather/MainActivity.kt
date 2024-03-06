@@ -18,7 +18,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weather.model.UserInfo
-import com.example.weather.repository.WeatherRepository
 import com.example.weather.ui.theme.WeatherTheme
 import com.example.weather.ui.theme.gradientBackground
 import com.example.weather.views.detail_forecast.DetailForecastView
@@ -30,8 +29,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             UserInfo.getCurrentLocation(context = this)
-            WeatherRepository.getMyData()
+            print("checking lata ln before get data ${UserInfo.lat}, ${UserInfo.lon}")
+//            WeatherRepository.getMyData()
 //            LaunchedEffect(key1 = Unit) {
 //                getMyData()
 //
@@ -51,8 +52,8 @@ class MainActivity : ComponentActivity() {
 //                        UserInfo.getCurrentLocation(context =this@MainActivity)
 //                    }
 //                    HomeView()
-//                    App()
-                    DetailForecastView()
+                    App()
+//                    DetailForecastView()
 //                    println("Accessed after view ${UserInfo.lat},${UserInfo.lon}")
 //                    getMyData()
 

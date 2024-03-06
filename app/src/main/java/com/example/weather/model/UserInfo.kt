@@ -10,32 +10,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
+import com.example.weather.model.UserInfo.isPermissionGranted
+import com.example.weather.repository.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.CoroutineScope
 
 object UserInfo {
     var lat by mutableStateOf<Double?>(null)
     var lon by mutableStateOf<Double?>(null)
 
-@Composable
-    fun _requestLocationPermission(context: Context): Boolean {
+//    var isPermissionGranted by mutableStateOf<Boolean?>(false)
+    var isPermissionGranted = mutableStateOf(false)
+
+    @Composable
+//    fun _requestLocationPermission(context: Context): Boolean {
+    fun _requestLocationPermission(context: Context){
         val permission = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
 
-        return permission == PackageManager.PERMISSION_GRANTED
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+           isPermissionGranted.value=true
+//            return true
+        } else {
+             askForRuntimePermission()
+//            return true
+
+        }
     }
 
     @Composable
-     fun getCurrentLocation(context:Context) {
+    fun getCurrentLocation(context: Context) {
 
         println("location granted ${_requestLocationPermission(context)}")
-        if (_requestLocationPermission(context)) {
+//        if (_requestLocationPermission(context)) {
+        if (isPermissionGranted.value) {
             try {
                 val fusedLocationClient: FusedLocationProviderClient =
                     LocationServices.getFusedLocationProviderClient(context)
@@ -49,6 +61,7 @@ object UserInfo {
                     try {
                         lat = location.latitude
                         lon = location.longitude
+                        WeatherRepository.getMyData()
                         println("inside var $lat")
                         println("inside var $lon")
                     } catch (e: Exception) {
@@ -66,8 +79,7 @@ object UserInfo {
                 e.printStackTrace()
             }
         }
-        else
-        {
+            else {
             askForRuntimePermission()
 //            LaunchedEffect(Unit) {
 //                launcher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -76,6 +88,7 @@ object UserInfo {
 
     }
 }
+
 @Composable
 fun askForRuntimePermission() {
 //    var isCameraPermissionGranted by remember { mutableStateOf(false) }
@@ -83,6 +96,9 @@ fun askForRuntimePermission() {
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
+//            return isGranted
+            isPermissionGranted.value=true
+
             Log.d("granted ", "$isGranted")
 //            isCameraPermissionGranted = true
         }
